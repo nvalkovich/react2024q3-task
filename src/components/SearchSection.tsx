@@ -1,15 +1,15 @@
 import { Component } from 'react';
-import CardsList from '../CardsList';
-import { CardData } from '../../types/interfaces';
-import Api from '../../api/Api';
-import SearchBar from '../SearchBar';
-import Loader from '../Loader';
+import CardsList from './CardsList';
+import { CardData } from '../types/interfaces';
+import Api from '../api/Api';
+import SearchBar from './SearchBar';
+import Loader from './Loader';
 
 type SearchSectionState = {
   searchQuery: string;
   isFetching: boolean;
   list: CardData[];
-}
+};
 
 const searchQueryKey = 'searchQuery';
 
@@ -30,12 +30,12 @@ class SearchSection extends Component<object, SearchSectionState> {
   }
 
   async componentDidMount() {
-      await this.handleSearch(this.state.searchQuery);
+    await this.handleSearch(this.state.searchQuery);
   }
 
   async handleSearch(searchQuery: string) {
     localStorage.setItem(searchQueryKey, searchQuery);
-   
+
     this.setState({ isFetching: true });
 
     try {
@@ -49,15 +49,20 @@ class SearchSection extends Component<object, SearchSectionState> {
   render() {
     return (
       <>
-   <SearchBar
-          value={this.state.searchQuery}
-          onSearch={this.handleSearch}
-        />
-        {this.state.isFetching ? (
-          <Loader />
-        ) : (
-          <CardsList list={this.state.list} />
-        )}
+        <div className="search-section">
+          <h1 className="title">Pokémon cards</h1>
+          <SearchBar
+            value={this.state.searchQuery}
+            onSearch={this.handleSearch}
+          />
+        </div>
+        <div className="cards-section">
+          {this.state.isFetching ? (
+            <Loader />
+          ) : (
+            <CardsList list={this.state.list} />
+          )}
+        </div>
       </>
     );
   }

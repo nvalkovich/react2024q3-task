@@ -1,14 +1,15 @@
 import { ChangeEvent, Component } from 'react';
-import './SearchBar.css';
+import './styles/SearchBar.css';
+import ErrorButton from './ErrorButton';
 
 type SearchProps = {
-  value: string,
+  value: string;
   onSearch: (query: string) => void;
 };
 
 type SearchState = {
-  value: string,
-  validationMessage: string | null
+  value: string;
+  validationMessage: string | null;
 };
 
 class SearchBar extends Component<SearchProps, SearchState> {
@@ -31,7 +32,7 @@ class SearchBar extends Component<SearchProps, SearchState> {
   }
 
   handleClick() {
-     if (!this.state.value.match(this.validationRegExp) && this.state.value) {
+    if (!this.state.value.match(this.validationRegExp) && this.state.value) {
       this.setState({
         validationMessage:
           'Invalid search request. Please, use Latin characters',
@@ -61,6 +62,7 @@ class SearchBar extends Component<SearchProps, SearchState> {
         <button onClick={this.handleClick} className="btn btn-search">
           Search
         </button>
+        <ErrorButton />
       </div>
     );
   }

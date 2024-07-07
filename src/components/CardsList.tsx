@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import Card from '../Card';
-import './CardsList.css';
-import { CardData } from '../../types/interfaces';
+import Card from './Card';
+import './styles/CardsList.css';
+import { CardData } from '../types/interfaces';
 
 type CardListProps = {
   list: CardData[];

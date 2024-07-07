@@ -1,4 +1,4 @@
-import { CardData, QueryParams } from "../types/interfaces";
+import { CardData, QueryParams } from '../types/interfaces';
 
 class Api {
   private baseURL: string;

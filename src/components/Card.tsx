@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { CardData } from '../../types/interfaces';
-import './Card.css';
+import { CardData } from '../types/interfaces';
+import './styles/Card.css';
 
 type CardProps = {
   data: CardData;
