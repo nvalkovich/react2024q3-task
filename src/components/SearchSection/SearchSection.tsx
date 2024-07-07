@@ -3,9 +3,11 @@ import CardsList from '../CardsList';
 import { CardData } from '../../types/interfaces';
 import Api from '../../api/Api';
 import SearchBar from '../SearchBar';
+import Loader from '../Loader';
 
 type SearchSectionState = {
   searchQuery: string;
+  isFetching: boolean;
   list: CardData[];
 }
 
@@ -19,6 +21,7 @@ class SearchSection extends Component<object, SearchSectionState> {
     const searchQuery = localStorage.getItem(searchQueryKey);
     this.state = {
       searchQuery: searchQuery ?? '',
+      isFetching: false,
       list: [],
     };
 
@@ -32,15 +35,29 @@ class SearchSection extends Component<object, SearchSectionState> {
 
   async handleSearch(searchQuery: string) {
     localStorage.setItem(searchQueryKey, searchQuery);
-    const data = await this.api.searchCardsByName(searchQuery);
-    this.setState({ list: data, searchQuery: searchQuery});
+   
+    this.setState({ isFetching: true });
+
+    try {
+      const data = await this.api.searchCardsByName(searchQuery);
+      this.setState({ list: data, searchQuery });
+    } finally {
+      this.setState({ isFetching: false });
+    }
   }
 
   render() {
     return (
       <>
-        <SearchBar value={this.state.searchQuery} onSearch={this.handleSearch}/>
-        <CardsList list={this.state.list}/>
+   <SearchBar
+          value={this.state.searchQuery}
+          onSearch={this.handleSearch}
+        />
+        {this.state.isFetching ? (
+          <Loader />
+        ) : (
+          <CardsList list={this.state.list} />
+        )}
       </>
     );
   }

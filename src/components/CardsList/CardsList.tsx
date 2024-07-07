@@ -1,20 +1,24 @@
 import { Component } from 'react';
 import Card from '../Card';
-import './CardsList.css'
+import './CardsList.css';
 import { CardData } from '../../types/interfaces';
 
-type CardsListProps = {
+type CardListProps = {
   list: CardData[];
-}
+};
 
-class CardsList extends Component<CardsListProps> {
+class CardList extends Component<CardListProps> {
   render() {
-    return (
+    return this.props.list.length ? (
       <div className="card-list">
-        { this.props.list.map((card) => (<Card key={card.id} data={card}/>)) }
+        {this.props.list.map((card) => (
+          <Card key={card.id} data={card} />
+        ))}
       </div>
+    ) : (
+      <p>No cards were found for this request</p>
     );
   }
 }
 
-export default CardsList;
+export default CardList;
