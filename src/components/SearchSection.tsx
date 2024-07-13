@@ -4,25 +4,23 @@ import { CardData } from '../types/interfaces';
 import Api from '../api/Api';
 import SearchBar from './SearchBar';
 import Loader from './Loader';
+import useLocalStorageQuery from './hooks/useLocalStorageQueryValue';
 
-const searchQueryKey = 'searchQuery';
 const api = new Api();
 
 export default function SearchSection() {
-  const [searchQuery, setSearchQuery] = useState<string>(
-    localStorage.getItem(searchQueryKey) || ''
-  );
+  const [lsQueryValue, setLsQueryValue] = useLocalStorageQuery();
+  const [searchQuery, setSearchQuery] = useState<string>(lsQueryValue);
   const [isFetching, setFetching] = useState<boolean>(false);
   const [list, setList] = useState<CardData[] | []>([]);
 
-  const handleSearch = async (searchQuery: string) => {
-    localStorage.setItem(searchQueryKey, searchQuery);
-
+  const handleSearch = async (query: string) => {
+    setLsQueryValue(query);
     setFetching(true);
 
     try {
       const data = await api.searchCardsByName(searchQuery);
-      setSearchQuery(searchQuery);
+      setSearchQuery(query);
       setList(data);
     } finally {
       setFetching(false);
@@ -34,6 +32,7 @@ export default function SearchSection() {
     // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <>
