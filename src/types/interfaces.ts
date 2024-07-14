@@ -12,3 +12,10 @@ export interface CardData {
     large: string;
   };
 }
+
+export interface CardsResponse {
+  data: CardData[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+}
