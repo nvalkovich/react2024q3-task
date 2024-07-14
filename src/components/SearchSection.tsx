@@ -6,7 +6,13 @@ import SearchBar from './SearchBar';
 import Loader from './Loader';
 import useLocalStorage from './hooks/useLocalStorage';
 import Pagination from './Pagination';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  Outlet,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
+import './styles/SearchSection.css';
 
 const lsQueryKey = 'searchQuery';
 const lsPageSizeKey = 'cardsPerPage';
@@ -25,12 +31,14 @@ export default function SearchSection() {
   const [searchParams, setSearchParms] = useSearchParams();
   const page = +(searchParams.get('page') ?? '1');
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isShaded = location.pathname === '/details';
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setSearchParms({ page: '1' });
   };
-
-  const navigate = useNavigate();
 
   const onPageChange = (page: number) => {
     searchParams.set('page', page.toString());
@@ -43,9 +51,13 @@ export default function SearchSection() {
     setSearchParms({ page: '1' });
   };
 
+  const onWrapperClick = () => {
+    searchParams.delete('id');
+    navigate({ pathname: '/', search: searchParams.toString() });
+  };
+
   useEffect(() => {
     const search = async () => {
-      console.log(lsQueryValue);
       setLsQueryValue(searchQuery);
       setFetching(true);
 
@@ -63,14 +75,14 @@ export default function SearchSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, page, pageSize]);
 
-  return (
-    <>
+  const leftSectionContent = (
+    <div className="left-section">
       <div className="search-section">
         <h1 className="title">Pokémon cards</h1>
         <SearchBar value={searchQuery} onSearch={handleSearch} />
       </div>
       {isFetching ? (
-        <div className="loader-container">
+        <div className="cards-loader-container">
           <Loader />
         </div>
       ) : (
@@ -89,6 +101,21 @@ export default function SearchSection() {
           </div>
         </>
       )}
+    </div>
+  );
+
+  return (
+    <>
+      {isShaded ? (
+        <div className="shaded-wrapper" onClick={onWrapperClick}>
+          {leftSectionContent}
+        </div>
+      ) : (
+        leftSectionContent
+      )}
+      <div className="right-section">
+        <Outlet />
+      </div>
     </>
   );
 }

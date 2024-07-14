@@ -8,8 +8,20 @@ type CardProps = {
 export default function Card({ data }: CardProps) {
   return (
     <div className="card">
-      <p>{data.name}</p>
-      <img className="card__name" src={data.images.small} alt={data.name}></img>
+      <p className="card__name">{data.name}</p>
+      <img
+        className="card__image"
+        src={data.images.small}
+        alt={data.name}
+      ></img>
+      <ul className="card__details-list card-details-list">
+        <li className="card-details-list__item">
+          Level: {data.level || 'Unknown'}
+        </li>
+        <li className="card-details-list__item">
+          Rarity: {data.rarity || 'Unknown'}
+        </li>
+      </ul>
     </div>
   );
 }
