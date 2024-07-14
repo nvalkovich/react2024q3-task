@@ -43,6 +43,7 @@ export default function Pagination({
       <div className="pagination-btns">
         <button
           className="arrow"
+          data-testid="button-prev-page"
           disabled={page <= 1}
           onClick={handlePrevClick}
         >
@@ -51,6 +52,7 @@ export default function Pagination({
         <div className="page-num">{page}</div>
         <button
           className="arrow"
+          data-testid="button-next-page"
           disabled={page >= Math.ceil(totalCount / pageSize)}
           onClick={handleNextClick}
         >

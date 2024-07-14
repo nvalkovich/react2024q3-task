@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import CardsList from './CardsList';
 import { CardData } from '../types/interfaces';
-import Api from '../api/Api';
 import SearchBar from './SearchBar';
 import Loader from './Loader';
 import useLocalStorage from './hooks/useLocalStorage';
@@ -13,11 +12,10 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import './styles/SearchSection.css';
+import { searchCardsByName } from '../Api';
 
 const lsQueryKey = 'searchQuery';
 const lsPageSizeKey = 'cardsPerPage';
-
-const api = new Api();
 
 export default function SearchSection() {
   const [lsQueryValue, setLsQueryValue] = useLocalStorage(lsQueryKey);
@@ -62,7 +60,7 @@ export default function SearchSection() {
       setFetching(true);
 
       try {
-        const cards = await api.searchCardsByName(searchQuery, page, pageSize);
+        const cards = await searchCardsByName(searchQuery, page, pageSize);
         setList(cards.data);
         setTotalCount(cards.totalCount);
         setSearchQuery(searchQuery);
@@ -79,7 +77,7 @@ export default function SearchSection() {
     <div className="left-section">
       <div className="search-section">
         <h1 className="title">Pokémon cards</h1>
-        <SearchBar value={searchQuery} onSearch={handleSearch} />
+        <SearchBar value={lsQueryValue} onSearch={handleSearch} />
       </div>
       {isFetching ? (
         <div className="cards-loader-container">

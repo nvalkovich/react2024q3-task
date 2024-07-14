@@ -1,11 +1,9 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Api from '../api/Api';
+import { getCard } from '../Api';
 import { useEffect, useState } from 'react';
 import { CardData } from '../types/interfaces';
 import Loader from './Loader';
 import './styles/Details.css';
-
-const api = new Api();
 
 export default function Details() {
   const [searchParams] = useSearchParams();
@@ -28,7 +26,7 @@ export default function Details() {
         if (!id) {
           return;
         }
-        const card = await api.getCard(id);
+        const card = await getCard(id);
         setCard(card);
       } finally {
         setFetching(false);
@@ -45,7 +43,7 @@ export default function Details() {
           <Loader />
         </div>
       ) : (
-        <>
+        <div data-testid="details">
           <div className="card-details-container">
             {card ? (
               <div className="card-details">
@@ -63,23 +61,23 @@ export default function Details() {
                   </li>
                   <li>
                     <span className="detail-category">Subtypes: </span>{' '}
-                    {card.subtypes.join(', ')}
+                    {card.subtypes?.join(', ')}
                   </li>
                   {card.types && (
                     <li>
-                      <span className="detail-category">Types:</span>{' '}
+                      <span className="detail-category">Types: </span>{' '}
                       {card.types?.join(', ')}
                     </li>
                   )}
                   {card.level && (
                     <li>
-                      <span className="detail-category">Level:</span>{' '}
+                      <span className="detail-category">Level: </span>{' '}
                       {card.level}
                     </li>
                   )}
                   {card.hp && (
                     <li>
-                      <span className="detail-category">HP:</span> {card.hp}
+                      <span className="detail-category">HP: </span> {card.hp}
                     </li>
                   )}
                   {card.abilities && (
@@ -105,7 +103,7 @@ export default function Details() {
                 </ul>
                 <img
                   className="card-details__image"
-                  src={card.images.small}
+                  src={card.images?.small}
                   alt={card.name}
                 ></img>
                 {card.flavorText && (
@@ -116,7 +114,7 @@ export default function Details() {
               <div>Not found</div>
             )}
           </div>
-        </>
+        </div>
       )}
     </>
   );

@@ -35,6 +35,7 @@ export default function SearchBar({ value, onSearch }: SearchProps) {
     <div className="search-container">
       <div className="input-container">
         <input
+          data-testid="search-input"
           type="text"
           value={currentValue}
           onChange={handleChange}
@@ -44,7 +45,11 @@ export default function SearchBar({ value, onSearch }: SearchProps) {
           <span className="input-message">{validationMessage}</span>
         )}
       </div>
-      <button onClick={handleClick} className="btn btn-search">
+      <button
+        data-testid="search-button"
+        onClick={handleClick}
+        className="btn btn-search"
+      >
         Search
       </button>
       <ErrorButton />
