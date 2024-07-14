@@ -4,36 +4,48 @@ import { CardData } from '../types/interfaces';
 import Api from '../api/Api';
 import SearchBar from './SearchBar';
 import Loader from './Loader';
-import useLocalStorageQuery from './hooks/useLocalStorageQueryValue';
+import useLocalStorage from './hooks/useLocalStorage';
 import Pagination from './Pagination';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
+const lsQueryKey = 'searchQuery';
+const lsPageSizeKey = 'cardsPerPage';
 
 const api = new Api();
 
 export default function SearchSection() {
-  const [lsQueryValue, setLsQueryValue] = useLocalStorageQuery();
+  const [lsQueryValue, setLsQueryValue] = useLocalStorage(lsQueryKey);
+  const [lsPageSizeValue, setPageSizeValue] = useLocalStorage(lsPageSizeKey);
+
   const [searchQuery, setSearchQuery] = useState<string>(lsQueryValue);
   const [isFetching, setFetching] = useState<boolean>(false);
   const [list, setList] = useState<CardData[] | []>([]);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState<number>(+lsPageSizeValue || 20);
   const [totalCount, setTotalCount] = useState(0);
+  const [searchParams, setSearchParms] = useSearchParams();
+  const page = +(searchParams.get('page') ?? '1');
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    setPage(1);
+    setSearchParms({ page: '1' });
   };
+
+  const navigate = useNavigate();
 
   const onPageChange = (page: number) => {
-    setPage(page);
+    searchParams.set('page', page.toString());
+    navigate({ search: searchParams.toString() });
   };
 
-  const onPageSizeChange = (pageSize: number) => {
-    setPageSize(pageSize);
-    setPage(1);
+  const onPageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize);
+    setPageSizeValue(newPageSize.toString());
+    setSearchParms({ page: '1' });
   };
 
   useEffect(() => {
     const search = async () => {
+      console.log(lsQueryValue);
       setLsQueryValue(searchQuery);
       setFetching(true);
 
@@ -57,18 +69,26 @@ export default function SearchSection() {
         <h1 className="title">Pokémon cards</h1>
         <SearchBar value={searchQuery} onSearch={handleSearch} />
       </div>
-      <div className="cards-section">
-        {isFetching ? <Loader /> : <CardsList list={list} />}
-      </div>
-      <div className="pagination-section">
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          totalCount={totalCount}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-        />
-      </div>
+      {isFetching ? (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      ) : (
+        <>
+          <div className="cards-section">
+            <CardsList list={list} />
+          </div>
+          <div className="pagination-section">
+            <Pagination
+              page={page}
+              pageSize={pageSize}
+              totalCount={totalCount}
+              onPageChange={onPageChange}
+              onPageSizeChange={onPageSizeChange}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }
