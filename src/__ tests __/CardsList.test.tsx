@@ -13,16 +13,7 @@ const list = [
   },
 ];
 
-describe('CardList', () => {
-  test('an appropriate message is displayed if no cards are present.', () => {
-    render(
-      <Router>
-        <CardsList list={[]} />
-      </Router>
-    );
-    expect(screen.getByText(/No cards were found/i)).toBeInTheDocument();
-  });
-
+describe('CardsList', () => {
   test('it renders cards', () => {
     render(
       <Router>
@@ -43,5 +34,14 @@ describe('CardList', () => {
 
     const cards = await screen.findAllByText(/level/i);
     expect(cards).toHaveLength(list.length);
+  });
+
+  test('an appropriate message is displayed if no cards are present.', () => {
+    render(
+      <Router>
+        <CardsList list={[]} />
+      </Router>
+    );
+    expect(screen.getByText(/No cards were found/i)).toBeInTheDocument();
   });
 });
