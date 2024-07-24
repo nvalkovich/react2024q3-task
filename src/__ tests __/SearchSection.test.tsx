@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { act, render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { searchCardsByName } from '../Api';
-import SearchSection from '../components/SearchSection';
+import { SearchSection } from '../components/SearchSection';
 import { fakeCardList } from '../test/mocks/fakeData';
 
 jest.mock('../Api');

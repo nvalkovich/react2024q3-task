@@ -1,6 +1,6 @@
-import './styles/NotFoundPage.css';
+import './NotFoundPage.css';
 
-export default function NotFoundPage() {
+export function NotFoundPage() {
   return (
     <div className="not-found-container">
       <div className="not-found-numbers">

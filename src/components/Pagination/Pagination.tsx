@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import './styles/Pagination.css';
+import './Pagination.css';
 
 type PaginationProps = {
   page: number;
@@ -9,7 +9,7 @@ type PaginationProps = {
   onPageSizeChange: (pageSize: number) => void;
 };
 
-export default function Pagination({
+export function Pagination({
   page,
   pageSize,
   totalCount,

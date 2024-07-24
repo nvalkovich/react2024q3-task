@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import SearchBar from '../components/SearchBar';
+import { SearchBar } from '../components/SearchBar';
 import { localStorageMock } from '../test/mocks/localStorageMock';
 
 const { setItemMock } = localStorageMock();

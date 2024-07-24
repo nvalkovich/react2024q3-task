@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import CardsList from '../components/CardsList';
+import { CardsList } from '../components/CardList';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 

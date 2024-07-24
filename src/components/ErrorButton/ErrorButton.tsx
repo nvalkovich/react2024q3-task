@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function ErrorButton() {
+export function ErrorButton() {
   const [isError, setError] = useState<boolean>(false);
 
   const handleClick = () => {

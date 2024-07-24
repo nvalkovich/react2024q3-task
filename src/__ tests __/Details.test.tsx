@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import Details from '../components/Details';
+import { Details } from '../components/Details';
 import { getCard } from '../Api';
-import Card from '../components/Card';
+import Card from '../components/Card/Card';
 import userEvent from '@testing-library/user-event';
 import { fakeCardList } from '../test/mocks/fakeData';
 const data = fakeCardList[0];

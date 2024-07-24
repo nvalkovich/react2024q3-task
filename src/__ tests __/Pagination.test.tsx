@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Pagination from '../components/Pagination';
+import { Pagination } from '../components/Pagination';
 import { useState } from 'react';
 import { fakePaginationData } from '../test/mocks/fakeData';
 

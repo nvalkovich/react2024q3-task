@@ -1,11 +1,11 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getCard } from '../Api';
+import { getCard } from '../../Api';
 import { useEffect, useState } from 'react';
-import { CardData } from '../types/interfaces';
-import Loader from './Loader';
-import './styles/Details.css';
+import { CardData } from '../../types/interfaces';
+import { Loader } from '../Loader';
+import './Details.css';
 
-export default function Details() {
+export function Details() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
   const [card, setCard] = useState<CardData | null>(null);

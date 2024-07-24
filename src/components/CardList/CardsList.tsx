@@ -1,12 +1,12 @@
-import { CardData } from '../types/interfaces';
-import Card from './Card';
-import './styles/CardsList.css';
+import { CardData } from '../../types/interfaces';
+import Card from '../Card/Card';
+import './CardsList.css';
 
 type CardListProps = {
   list: CardData[];
 };
 
-export default function CardsList({ list }: CardListProps) {
+export function CardsList({ list }: CardListProps) {
   return list?.length ? (
     <div className="card-list" data-testid="card-list">
       {list.map((card) => {

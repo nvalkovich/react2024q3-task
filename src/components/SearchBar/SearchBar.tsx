@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
-import './styles/SearchBar.css';
-import ErrorButton from './ErrorButton';
+import {ErrorButton } from '../ErrorButton';
+import './SearchBar.css';
 
 type SearchProps = {
   value: string;
@@ -9,7 +9,7 @@ type SearchProps = {
 
 const validationRegExp = /^[0-9a-zA-Z\s]+$/;
 
-export default function SearchBar({ value, onSearch }: SearchProps) {
+export function SearchBar({ value, onSearch }: SearchProps) {
   const [currentValue, setCurrentValue] = useState<string>(value);
   const [validationMessage, setValidationMessage] = useState<string | null>(
     null

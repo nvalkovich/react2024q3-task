@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Card from '../components/Card';
+import Card from '../components/Card/Card';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Details from '../components/Details';
+import { Details } from '../components/Details';
 import { getCard } from '../Api';
 
 const data = {

@@ -1,6 +1,6 @@
-import { CardData } from '../types/interfaces';
+import { CardData } from '../../types/interfaces';
 import { Link, useSearchParams } from 'react-router-dom';
-import './styles/Card.css';
+import './Card.css';
 
 type CardProps = {
   data: CardData;
