@@ -1,8 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ErrorButton } from '../ErrorButton';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { search } from '../../store/searchSlice';
-import { useAppDispatch } from '../../store/hooks';
 import { setPage } from '../../store/paginationSlice';
 import './SearchBar.css';
 
@@ -10,12 +9,10 @@ const validationRegExp = /^[0-9a-zA-Z\s]+$/;
 
 export function SearchBar() {
   const dispatch = useAppDispatch();
-  const searchNewQuery = (query: string) => dispatch(search(query));
-  const changePage = (query: string) => dispatch(setPage(query));
 
   const onSearch = (query: string) => {
-    searchNewQuery(query);
-    changePage('1');
+    dispatch(setPage('1'));
+    dispatch(search(query));
   };
 
   const searchQuery = useAppSelector((store) => store.search.searchQuery);
@@ -49,7 +46,7 @@ export function SearchBar() {
 
   useEffect(() => {
     if (stateValue && stateValue.length) {
-      onSearch(stateValue);
+      dispatch(search(stateValue));
     }
   }, []);
 

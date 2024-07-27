@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { SearchBar } from '../SearchBar';
 import { CardsList } from '../CardsList';
-import { CardData } from '../../api/types';
 import { Loader } from '../Loader';
 import { Pagination } from '../Pagination';
 import {
@@ -10,17 +9,18 @@ import {
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
-import { searchCardsByName } from '../../api/pokemonApi';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useSearchCardsQuery } from '../../services/pokemonCardsApi';
+import { setMainLoading } from '../../store/loadingSlice';
+import { setTotalCount } from '../../store/paginationSlice';
 import './SearchSection.css';
 
 export function SearchSection() {
+  const dispatch = useAppDispatch();
+
   const searchQuery = useAppSelector((state) => state.search.searchQuery);
   const itemsPerPage = useAppSelector((state) => state.pagination.itemsPerPage);
   const currentPage = useAppSelector((state) => state.pagination.page);
-
-  const [isFetching, setFetching] = useState(false);
-  const [list, setList] = useState<CardData[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -28,8 +28,6 @@ export function SearchSection() {
     searchParams.set('page', currentPage.toString());
     setSearchParams(searchParams);
   }, [currentPage, searchParams, setSearchParams]);
-
-  const [totalCount, setTotalCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -41,25 +39,19 @@ export function SearchSection() {
     navigate({ pathname: '/', search: searchParams.toString() });
   };
 
+  const { data: response, isFetching } = useSearchCardsQuery({
+    pageSize: itemsPerPage,
+    page: currentPage,
+    name: searchQuery,
+  });
+
   useEffect(() => {
-    const search = async () => {
-      setFetching(true);
+    dispatch(setMainLoading(isFetching));
+    dispatch(setTotalCount(Number(response?.totalCount)));
+  }, [response, isFetching]);
 
-      try {
-        const cards = await searchCardsByName(
-          searchQuery,
-          currentPage,
-          itemsPerPage
-        );
-        setList(cards.data);
-        setTotalCount(cards.totalCount);
-      } finally {
-        setFetching(false);
-      }
-    };
-
-    search().catch(console.error);
-  }, [searchQuery, currentPage, itemsPerPage]);
+  const list = response?.data || [];
+  const isLoading = useAppSelector((state) => state.loading.mainLoading);
 
   return (
     <>
@@ -72,7 +64,7 @@ export function SearchSection() {
             <h1 className="title">Pokémon cards</h1>
             <SearchBar />
           </div>
-          {isFetching ? (
+          {isLoading ? (
             <div className="cards-loader-container">
               <Loader />
             </div>
@@ -82,7 +74,7 @@ export function SearchSection() {
                 <CardsList list={list} />
               </div>
               <div className="pagination-section">
-                <Pagination totalCount={totalCount} />
+                <Pagination />
               </div>
             </>
           )}

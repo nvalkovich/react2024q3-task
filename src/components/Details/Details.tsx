@@ -1,15 +1,23 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getCard } from '../../api/pokemonApi';
-import { useEffect, useState } from 'react';
-import { CardData } from '../../api/types';
 import { Loader } from '../Loader';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useEffect } from 'react';
+import { setDetailsLoading } from '../../store/loadingSlice';
+import { useGetCardByIdQuery } from '../../services/pokemonCardsApi';
 import './Details.css';
 
 export function Details() {
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
-  const [card, setCard] = useState<CardData | null>(null);
-  const [isFetching, setFetching] = useState(false);
+
+  const { data: response, isFetching } = useGetCardByIdQuery(id as string);
+
+  const card = response?.data;
+
+  useEffect(() => {
+    dispatch(setDetailsLoading(isFetching));
+  }, [isFetching]);
 
   const navigate = useNavigate();
 
@@ -18,28 +26,9 @@ export function Details() {
     navigate({ pathname: '/', search: searchParams.toString() });
   };
 
-  useEffect(() => {
-    if (id) {
-      const search = async () => {
-        setFetching(true);
+  const isLoading = useAppSelector((state) => state.loading.detailsLoading);
 
-        try {
-          const card = await getCard(id);
-          setCard(card);
-        } catch (error) {
-          if (error instanceof Error) {
-            console.error(error.message);
-          }
-        } finally {
-          setFetching(false);
-        }
-      };
-
-      search();
-    }
-  }, [id]);
-
-  if (isFetching) {
+  if (isLoading) {
     return (
       <div className="details-loader-container">
         <Loader />
