@@ -1,4 +1,4 @@
-import { getQueryString } from '../Api';
+import { getQueryString } from '../api/pokemonApi';
 import { fakeQueryParams as queryParams } from '../test/mocks/fakeData';
 
 describe('Api', () => {

@@ -12,7 +12,7 @@ export function NotFoundPage() {
         <span className="not-found-numbers__number">4</span>
       </div>
 
-      <p className="not-found-text">Page not found</p>
+      <span className="not-found-text">Page not found</span>
     </div>
   );
 }

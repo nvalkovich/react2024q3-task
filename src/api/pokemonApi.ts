@@ -1,4 +1,4 @@
-import { CardData, CardsResponse, QueryParams } from './types/interfaces';
+import { CardData, CardsResponse, QueryParams } from './types';
 
 const baseURL = 'https://api.pokemontcg.io/v2';
 const path = {

@@ -5,7 +5,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { Details } from '../components/Details';
-import { getCard } from '../Api';
+import { getCard } from '../api/pokemonApi';
 
 const data = {
   id: 'smp-SM112',
@@ -45,7 +45,7 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-jest.mock('../Api');
+jest.mock('../api/pokemonApi');
 
 describe('Card', () => {
   test('the card component renders the relevant card data', () => {

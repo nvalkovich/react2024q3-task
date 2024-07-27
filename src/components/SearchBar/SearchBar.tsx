@@ -1,35 +1,57 @@
-import { ChangeEvent, useState } from 'react';
-import {ErrorButton } from '../ErrorButton';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { ErrorButton } from '../ErrorButton';
+import { useAppSelector } from '../../store/hooks';
+import { search } from '../../store/searchSlice';
+import { useAppDispatch } from '../../store/hooks';
+import { setPage } from '../../store/paginationSlice';
 import './SearchBar.css';
-
-type SearchProps = {
-  value: string;
-  onSearch: (query: string) => void;
-};
 
 const validationRegExp = /^[0-9a-zA-Z\s]+$/;
 
-export function SearchBar({ value, onSearch }: SearchProps) {
-  const [currentValue, setCurrentValue] = useState<string>(value);
+export function SearchBar() {
+  const dispatch = useAppDispatch();
+  const searchNewQuery = (query: string) => dispatch(search(query));
+  const changePage = (query: string) => dispatch(setPage(query));
+
+  const onSearch = (query: string) => {
+    searchNewQuery(query);
+    changePage('1');
+  };
+
+  const searchQuery = useAppSelector((store) => store.search.searchQuery);
+
+  const [stateValue, setStateValue] = useState(searchQuery);
   const [validationMessage, setValidationMessage] = useState<string | null>(
     null
   );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(event.target.value);
+    setStateValue(event.target.value);
     setValidationMessage(null);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onSearch(stateValue);
+    }
+  };
+
   const handleClick = () => {
-    if (!currentValue.match(validationRegExp) && currentValue) {
+    if (!stateValue.match(validationRegExp) && stateValue) {
       setValidationMessage(
-        'Invalid search request. Please, use only Latin characters'
+        'Invalid search request. Please, use Latin characters'
       );
       return;
     }
 
-    onSearch(currentValue);
+    onSearch(stateValue);
   };
+
+  useEffect(() => {
+    if (stateValue && stateValue.length) {
+      onSearch(stateValue);
+    }
+  }, []);
 
   return (
     <div className="search-container">
@@ -37,19 +59,16 @@ export function SearchBar({ value, onSearch }: SearchProps) {
         <input
           data-testid="search-input"
           type="text"
-          value={currentValue}
+          value={stateValue}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           className="input"
         />
         {validationMessage && (
           <span className="input-message">{validationMessage}</span>
         )}
       </div>
-      <button
-        data-testid="search-button"
-        onClick={handleClick}
-        className="btn btn-search"
-      >
+      <button data-testid="search-button" onClick={handleClick} className="btn">
         Search
       </button>
       <ErrorButton />

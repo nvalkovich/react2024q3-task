@@ -14,14 +14,16 @@
   },
   "jest": {
     "collectCoverageFrom": [
-        "*.tsx"
+      "*.tsx"
     ]
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/react": "^16.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
     "react-router-dom": "^6.24.1"
   },
   "devDependencies": {
@@ -44,6 +46,7 @@
     "jest": "^29.7.0",
     "jest-transform-css": "^6.0.1",
     "prettier": "^3.3.2",
+    "redux-persist": "^6.0.0",
     "ts-jest": "^29.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",

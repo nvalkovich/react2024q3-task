@@ -7,17 +7,13 @@ import { localStorageMock } from '../test/mocks/localStorageMock';
 
 const { setItemMock } = localStorageMock();
 
-const onSearchClickMock = jest.fn().mockImplementation((searchQuery) => {
-  setItemMock('searchQuery', searchQuery);
-});
-
 const value = 'value';
 
 describe('SearchBar', () => {
   beforeEach(() => {
     render(
       <Router>
-        <SearchBar value="" onSearch={onSearchClickMock} />
+        <SearchBar />
       </Router>
     );
   });

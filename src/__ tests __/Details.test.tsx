@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Details } from '../components/Details';
-import { getCard } from '../Api';
+import { getCard } from '../api/pokemonApi';
 import Card from '../components/Card/Card';
 import userEvent from '@testing-library/user-event';
 import { fakeCardList } from '../test/mocks/fakeData';

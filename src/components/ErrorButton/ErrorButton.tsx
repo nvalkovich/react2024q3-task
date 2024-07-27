@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export function ErrorButton() {
-  const [isError, setError] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handleClick = () => {
-    setError(true);
+    setIsError(true);
   };
 
   if (isError) {

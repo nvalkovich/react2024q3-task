@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { CardsList } from '../CardList';
-import { CardData } from '../../types/interfaces';
 import { SearchBar } from '../SearchBar';
+import { CardsList } from '../CardsList';
+import { CardData } from '../../api/types';
 import { Loader } from '../Loader';
-import useLocalStorage from '../../hooks/useLocalStorage';
 import { Pagination } from '../Pagination';
 import {
   Outlet,
@@ -11,43 +10,31 @@ import {
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
-import { searchCardsByName } from '../../Api';
+import { searchCardsByName } from '../../api/pokemonApi';
+import { useAppSelector } from '../../store/hooks';
 import './SearchSection.css';
 
-const lsQueryKey = 'searchQuery';
-const lsPageSizeKey = 'cardsPerPage';
-
 export function SearchSection() {
-  const [lsQueryValue, setLsQueryValue] = useLocalStorage(lsQueryKey);
-  const [lsPageSizeValue, setPageSizeValue] = useLocalStorage(lsPageSizeKey);
+  const searchQuery = useAppSelector((state) => state.search.searchQuery);
+  const itemsPerPage = useAppSelector((state) => state.pagination.itemsPerPage);
+  const currentPage = useAppSelector((state) => state.pagination.page);
 
-  const [searchQuery, setSearchQuery] = useState<string>(lsQueryValue);
-  const [isFetching, setFetching] = useState<boolean>(false);
-  const [list, setList] = useState<CardData[] | []>([]);
-  const [pageSize, setPageSize] = useState<number>(+lsPageSizeValue || 20);
+  const [isFetching, setFetching] = useState(false);
+  const [list, setList] = useState<CardData[]>([]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    searchParams.set('page', currentPage.toString());
+    setSearchParams(searchParams);
+  }, [currentPage, searchParams, setSearchParams]);
+
   const [totalCount, setTotalCount] = useState(0);
-  const [searchParams, setSearchParms] = useSearchParams();
-  const page = +(searchParams.get('page') ?? '1');
 
   const navigate = useNavigate();
+
   const location = useLocation();
   const isShaded = location.pathname === '/details';
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setSearchParms({ page: '1' });
-  };
-
-  const onPageChange = (page: number) => {
-    searchParams.set('page', page.toString());
-    navigate({ search: searchParams.toString() });
-  };
-
-  const onPageSizeChange = (newPageSize: number) => {
-    setPageSize(newPageSize);
-    setPageSizeValue(newPageSize.toString());
-    setSearchParms({ page: '1' });
-  };
 
   const onWrapperClick = () => {
     searchParams.delete('id');
@@ -56,61 +43,51 @@ export function SearchSection() {
 
   useEffect(() => {
     const search = async () => {
-      setLsQueryValue(searchQuery);
       setFetching(true);
 
       try {
-        const cards = await searchCardsByName(searchQuery, page, pageSize);
+        const cards = await searchCardsByName(
+          searchQuery,
+          currentPage,
+          itemsPerPage
+        );
         setList(cards.data);
         setTotalCount(cards.totalCount);
-        setSearchQuery(searchQuery);
       } finally {
         setFetching(false);
       }
     };
-    search().catch(console.error);
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, page, pageSize]);
 
-  const leftSectionContent = (
-    <div className="left-section">
-      <div className="search-section">
-        <h1 className="title">Pokémon cards</h1>
-        <SearchBar value={lsQueryValue} onSearch={handleSearch} />
-      </div>
-      {isFetching ? (
-        <div className="cards-loader-container">
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <div className="cards-section">
-            <CardsList list={list} />
-          </div>
-          <div className="pagination-section">
-            <Pagination
-              page={page}
-              pageSize={pageSize}
-              totalCount={totalCount}
-              onPageChange={onPageChange}
-              onPageSizeChange={onPageSizeChange}
-            />
-          </div>
-        </>
-      )}
-    </div>
-  );
+    search().catch(console.error);
+  }, [searchQuery, currentPage, itemsPerPage]);
 
   return (
     <>
-      {isShaded ? (
-        <div className="shaded-wrapper" onClick={onWrapperClick}>
-          {leftSectionContent}
+      <div
+        className={isShaded ? 'shaded-wrapper' : 'wrapper'}
+        onClick={isShaded ? onWrapperClick : undefined}
+      >
+        <div className="left-section">
+          <div className="search-section">
+            <h1 className="title">Pokémon cards</h1>
+            <SearchBar />
+          </div>
+          {isFetching ? (
+            <div className="cards-loader-container">
+              <Loader />
+            </div>
+          ) : (
+            <>
+              <div className="cards-section">
+                <CardsList list={list} />
+              </div>
+              <div className="pagination-section">
+                <Pagination totalCount={totalCount} />
+              </div>
+            </>
+          )}
         </div>
-      ) : (
-        leftSectionContent
-      )}
+      </div>
       <div className="right-section">
         <Outlet />
       </div>

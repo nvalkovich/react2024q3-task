@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { searchCardsByName } from '../Api';
+import { searchCardsByName } from '../api/pokemonApi';
 import { SearchSection } from '../components/SearchSection';
 import { fakeCardList } from '../test/mocks/fakeData';
 

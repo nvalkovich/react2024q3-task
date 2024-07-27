@@ -1,3 +1,8 @@
+export interface QueryParams {
+  key: string;
+  value: string | number;
+}
+
 export interface CardData {
   id: string;
   name: string;
@@ -38,9 +43,4 @@ export interface CardsResponse {
   page: number;
   pageSize: number;
   totalCount: number;
-}
-
-export interface QueryParams {
-  key: string;
-  value: string | number;
 }
