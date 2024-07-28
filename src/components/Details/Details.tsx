@@ -47,6 +47,7 @@ export function Details() {
           {card ? (
             <>
               <button
+                data-testid="close-btn"
                 className="card-details-container__btn-close btn"
                 onClick={onCloseClick}
               >

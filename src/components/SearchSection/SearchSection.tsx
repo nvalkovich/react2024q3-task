@@ -46,9 +46,8 @@ export function SearchSection() {
     name: searchQuery,
   });
 
-  dispatch(setCards(response?.data || []));
-
   useEffect(() => {
+    dispatch(setCards(response?.data || []));
     dispatch(setMainLoading(isFetching));
     dispatch(setTotalCount(Number(response?.totalCount)));
   }, [response, isFetching]);
