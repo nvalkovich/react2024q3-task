@@ -6,7 +6,7 @@ type CardProps = {
   data: CardData;
 };
 
-export default function Card({ data }: CardProps) {
+export function Card({ data }: CardProps) {
   const [searchParams] = useSearchParams();
   searchParams.set('id', data.id);
 

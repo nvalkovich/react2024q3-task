@@ -1,12 +1,10 @@
-import { CardData } from '../../api/types';
-import Card from '../Card/Card';
+import { useAppSelector } from '../../store/hooks';
+import { Card } from '../Card';
 import './CardsList.css';
 
-type CardListProps = {
-  list: CardData[];
-};
+export function CardsList() {
+  const list = useAppSelector((state) => state.cards.cardsList);
 
-export function CardsList({ list }: CardListProps) {
   if (!list.length) {
     return <p>No cards were found for this request</p>;
   }

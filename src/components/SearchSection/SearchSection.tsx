@@ -11,8 +11,9 @@ import {
 } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useSearchCardsQuery } from '../../services/pokemonCardsApi';
-import { setMainLoading } from '../../store/loadingSlice';
-import { setTotalCount } from '../../store/paginationSlice';
+import { setMainLoading } from '../../store/slices/loadingSlice';
+import { setTotalCount } from '../../store/slices/paginationSlice';
+import { setCards } from '../../store/slices/cardsSlice';
 import './SearchSection.css';
 
 export function SearchSection() {
@@ -45,12 +46,13 @@ export function SearchSection() {
     name: searchQuery,
   });
 
+  dispatch(setCards(response?.data || []));
+
   useEffect(() => {
     dispatch(setMainLoading(isFetching));
     dispatch(setTotalCount(Number(response?.totalCount)));
   }, [response, isFetching]);
 
-  const list = response?.data || [];
   const isLoading = useAppSelector((state) => state.loading.mainLoading);
 
   return (
@@ -71,7 +73,7 @@ export function SearchSection() {
           ) : (
             <>
               <div className="cards-section">
-                <CardsList list={list} />
+                <CardsList />
               </div>
               <div className="pagination-section">
                 <Pagination />

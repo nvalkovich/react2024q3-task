@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import './Pagination.css';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setItemsPerPage, setPage } from '../../store/paginationSlice';
+import { setItemsPerPage, setPage } from '../../store/slices/paginationSlice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export function Pagination() {

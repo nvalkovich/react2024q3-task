@@ -2,12 +2,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader } from '../Loader';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
-import { setDetailsLoading } from '../../store/loadingSlice';
+import { setDetailsLoading } from '../../store/slices/loadingSlice';
+import { setDetailedCard } from '../../store/slices/cardsSlice';
 import { useGetCardByIdQuery } from '../../services/pokemonCardsApi';
 import './Details.css';
 
 export function Details() {
   const dispatch = useAppDispatch();
+
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
 
@@ -17,12 +19,14 @@ export function Details() {
 
   useEffect(() => {
     dispatch(setDetailsLoading(isFetching));
+    dispatch(setDetailedCard(card));
   }, [isFetching]);
 
   const navigate = useNavigate();
 
   const onCloseClick = () => {
     searchParams.delete('id');
+    dispatch(setDetailedCard({}));
     navigate({ pathname: '/', search: searchParams.toString() });
   };
 

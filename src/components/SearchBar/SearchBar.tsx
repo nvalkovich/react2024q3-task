@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ErrorButton } from '../ErrorButton';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { search } from '../../store/searchSlice';
-import { setPage } from '../../store/paginationSlice';
+import { search } from '../../store/slices/searchSlice';
+import { setPage } from '../../store/slices/paginationSlice';
 import './SearchBar.css';
 
 const validationRegExp = /^[0-9a-zA-Z\s]+$/;
