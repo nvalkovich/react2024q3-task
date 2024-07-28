@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 import '@testing-library/jest-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import { Card } from '../../../components/Card';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
@@ -14,7 +14,7 @@ const data = mockCardList[0];
 
 describe('Card render', () => {
   test('the card component renders the relevant card data', () => {
-    render(
+    renderWithProviders(
       <Router>
         <Card data={data} />
       </Router>

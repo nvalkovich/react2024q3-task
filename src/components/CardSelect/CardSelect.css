@@ -1,0 +1,5 @@
+.checkbox-empty,
+.checkbox-checked {
+  width: 35px;
+  cursor: pointer;
+}

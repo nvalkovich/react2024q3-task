@@ -37,11 +37,13 @@
 }
 
 .search-section,
-.cards-section {
+.cards-section,
+.flayout-section {
   padding: 20px 0px 35px 0px;
 }
 
-.cards-section {
+.cards-section,
+.flayout-section {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -15,6 +15,7 @@ import { setMainLoading } from '../../store/slices/loadingSlice';
 import { setTotalCount } from '../../store/slices/paginationSlice';
 import { setCards } from '../../store/slices/cardsSlice';
 import './SearchSection.css';
+import { FlyoutElement } from '../FlyoutElement/FlyoutElement';
 
 export function SearchSection() {
   const dispatch = useAppDispatch();
@@ -76,6 +77,9 @@ export function SearchSection() {
               </div>
               <div className="pagination-section">
                 <Pagination />
+              </div>
+              <div className="flayout-section">
+                <FlyoutElement />
               </div>
             </>
           )}

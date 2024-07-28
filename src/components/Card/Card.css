@@ -15,6 +15,12 @@
   text-align: center;
 }
 
+.card-checkbox {
+  position: absolute;
+  bottom: 2px;
+  right: 10px;
+}
+
 .card-details-list {
   padding-top: 20px;
   font-size: 12px;
