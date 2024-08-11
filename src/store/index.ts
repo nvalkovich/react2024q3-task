@@ -1,65 +1,26 @@
-import {
-  configureStore,
-  combineReducers,
-  PreloadedState,
-} from '@reduxjs/toolkit';
-import {
-  searchReducer,
-  cardsReducer,
-  paginationReducer,
-  loadingReducer,
-  themeReducer,
-} from './slices';
-import { pokemonCardsApi } from '../services/pokemonCardsApi';
-
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { createWrapper } from 'next-redux-wrapper';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { cardsReducer, themeReducer } from './slices';
+import { pokemonCardsApi } from '../services/api/pokemonCardsApi';
 
 const rootReducer = combineReducers({
-  search: searchReducer,
-  pagination: paginationReducer,
-  loading: loadingReducer,
   cards: cardsReducer,
   theme: themeReducer,
   [pokemonCardsApi.reducerPath]: pokemonCardsApi.reducer,
 });
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: [pokemonCardsApi.reducerPath],
-};
-
-export const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
-  return configureStore({
-    reducer: persistedReducer,
-    preloadedState,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(pokemonCardsApi.middleware),
+export const makeStore = () =>
+  configureStore({
+    reducer: rootReducer,
+    middleware: (gDM) => gDM().concat(pokemonCardsApi.middleware),
   });
-};
 
-const store = setupStore({});
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });
+
+const store = makeStore();
 
 export default store;
 
-export const persistor = persistStore(store);
-
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];

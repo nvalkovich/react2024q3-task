@@ -1,6 +1,4 @@
 import { useState, createContext } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setThemeValue } from '../../store/slices/themeSlice';
 import { supportedThemes } from './types';
 
 export const ThemeContext = createContext({
@@ -10,15 +8,10 @@ export const ThemeContext = createContext({
 });
 
 export const ThemeProvider = (props: { children: React.ReactNode }) => {
-  const dispatch = useAppDispatch();
-  const themeValue = useAppSelector((state) => state.theme.value);
-  const [theme, setTheme] = useState<supportedThemes>(
-    themeValue as supportedThemes
-  );
+  const [theme, setTheme] = useState<supportedThemes>(supportedThemes.light);
 
   const setNewThemeValue = (value: supportedThemes) => {
     setTheme(value);
-    dispatch(setThemeValue(value));
   };
 
   return (

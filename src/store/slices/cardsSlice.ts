@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CardData } from '../../api/types';
+import { CardData } from '@/src/types/interfaces';
 
 const cardsSlice = createSlice({
   name: 'cards',
