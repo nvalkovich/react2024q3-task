@@ -3,6 +3,15 @@
   width: 100%;
 }
 
+.wrapper[data-theme='dark'] {
+  background: #6666749e;
+}
+
+.wrapper[data-theme='dark']:has(.loader),
+.wrapper[data-theme='dark']:has(.no-cards-message) {
+  height: 100vh;
+}
+
 .shaded-wrapper::after {
   content: '';
   background: #00000071;

@@ -1,0 +1,8 @@
+.toggler {
+  display: flex;
+  cursor: pointer;
+}
+
+.light-icon {
+  width: 30px;
+}

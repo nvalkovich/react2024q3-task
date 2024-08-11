@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { SearchBar } from '../SearchBar';
 import { CardsList } from '../CardsList';
 import { Loader } from '../Loader';
@@ -16,8 +16,11 @@ import { setTotalCount } from '../../store/slices/paginationSlice';
 import { setCards } from '../../store/slices/cardsSlice';
 import './SearchSection.css';
 import { FlyoutElement } from '../FlyoutElement/FlyoutElement';
+import { ThemeContext } from '../../services/theme/ThemeProvider';
 
 export function SearchSection() {
+  const theme = useContext(ThemeContext);
+
   const dispatch = useAppDispatch();
 
   const searchQuery = useAppSelector((state) => state.search.searchQuery);
@@ -59,6 +62,7 @@ export function SearchSection() {
     <>
       <div
         className={isShaded ? 'shaded-wrapper' : 'wrapper'}
+        data-theme={theme.themeValue}
         onClick={isShaded ? onWrapperClick : undefined}
       >
         <div className="left-section">

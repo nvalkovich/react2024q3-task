@@ -8,6 +8,7 @@ import {
   cardsReducer,
   paginationReducer,
   loadingReducer,
+  themeReducer,
 } from './slices';
 import { pokemonCardsApi } from '../services/pokemonCardsApi';
 
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   pagination: paginationReducer,
   loading: loadingReducer,
   cards: cardsReducer,
+  theme: themeReducer,
   [pokemonCardsApi.reducerPath]: pokemonCardsApi.reducer,
 });
 

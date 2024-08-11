@@ -5,6 +5,11 @@
   height: 100vh;
 }
 
+.details-loader-container[data-theme='dark'],
+.card-details-container[data-theme='dark'] {
+  background: #d2d2d4e9;
+}
+
 .card-details-container {
   position: relative;
 }

@@ -3,6 +3,8 @@ import { ErrorButton } from '../ErrorButton';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { search } from '../../store/slices/searchSlice';
 import { setPage } from '../../store/slices/paginationSlice';
+import { ThemeToggler } from '../ThemeToggler';
+
 import './SearchBar.css';
 
 const validationRegExp = /^[0-9a-zA-Z\s]+$/;
@@ -69,6 +71,7 @@ export function SearchBar() {
         Search
       </button>
       <ErrorButton />
+      <ThemeToggler />
     </div>
   );
 }

@@ -1,13 +1,16 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader } from '../Loader';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { setDetailsLoading } from '../../store/slices/loadingSlice';
 import { setDetailedCard } from '../../store/slices/cardsSlice';
 import { useGetCardByIdQuery } from '../../services/pokemonCardsApi';
 import './Details.css';
+import { ThemeContext } from '../../services/theme/ThemeProvider';
 
 export function Details() {
+  const theme = useContext(ThemeContext);
+
   const dispatch = useAppDispatch();
 
   const [searchParams] = useSearchParams();
@@ -34,7 +37,7 @@ export function Details() {
 
   if (isLoading) {
     return (
-      <div className="details-loader-container">
+      <div className="details-loader-container" data-theme={theme.themeValue}>
         <Loader />
       </div>
     );
@@ -42,7 +45,7 @@ export function Details() {
 
   return (
     <div data-testid="details">
-      <div className="card-details-container">
+      <div className="card-details-container" data-theme={theme.themeValue}>
         <div className="card-details">
           {card ? (
             <>

@@ -6,7 +6,9 @@ export function CardsList() {
   const list = useAppSelector((state) => state.cards.cardsList);
 
   if (!list.length) {
-    return <p>No cards were found for this request</p>;
+    return (
+      <p className="no-cards-message">No cards were found for this request</p>
+    );
   }
 
   return (
