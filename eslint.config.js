@@ -2,6 +2,9 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import reactCompiler from 'eslint-plugin-react-compiler'
+import prettier from 'prettier'
+import eslintConfigPrettier from 'eslint-config-prettier'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
@@ -16,6 +19,9 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'react-compiler': reactCompiler, 
+      'eslint-config-prettier': eslintConfigPrettier,
+    'prettier': prettier
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
