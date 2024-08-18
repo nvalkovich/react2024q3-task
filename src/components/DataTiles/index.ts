@@ -1,1 +1,1 @@
-export { DataTiles } from "./DataTiles";
+export { DataTiles } from './DataTiles';

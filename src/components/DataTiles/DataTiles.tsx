@@ -10,8 +10,9 @@ export const DataTiles = ({ data }: DataTilesProps) => {
 
   return (
     <>
-      {reversedData.map((dataItem, index) => 
-            <Tile key={dataItem.id} data={dataItem} index={index} /> )}
+      {reversedData.map((dataItem, index) => (
+        <Tile key={dataItem.id} data={dataItem} index={index} />
+      ))}
     </>
   );
 };

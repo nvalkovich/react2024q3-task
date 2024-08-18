@@ -5,7 +5,7 @@ import countriesReducer from './slices/countriesSlice';
 
 export const rootReducer = combineReducers({
   form: formReducer,
-  countries: countriesReducer
+  countries: countriesReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

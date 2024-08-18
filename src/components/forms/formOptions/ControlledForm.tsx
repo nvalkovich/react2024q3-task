@@ -11,7 +11,7 @@ import {
   getPasswordStyles,
 } from '../../../utils/helpers';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { formSchema } from '../../../utils/yup/formSchema'
+import { formSchema } from '../../../utils/yup/formSchema';
 import { CountryAutocomplete } from '../../CountryAutocomplete/CountryAutocomplete';
 
 export const ControlledForm = () => {
@@ -30,7 +30,7 @@ export const ControlledForm = () => {
 
   const onSubmit = async (data: FormData) => {
     const file = data.file?.[0];
-     if (file) {
+    if (file) {
       const image = (await convertToBase64(file)) as string;
       dispatch(setFormData({ ...data, file: image, id: generateID() }));
 
@@ -41,7 +41,7 @@ export const ControlledForm = () => {
   };
 
   return (
- <form onSubmit={handleSubmit(onSubmit)} className="form">
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="form__item">
         <label htmlFor="name">Name</label>
         <input id="name" {...register('name')} />

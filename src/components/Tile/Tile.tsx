@@ -1,5 +1,5 @@
-import { TileData } from "./types";
-import './Tile.css'
+import { TileData } from './types';
+import './Tile.css';
 
 type TileProps = {
   data: TileData;

@@ -37,16 +37,18 @@ export const formSchema = yup.object().shape({
     .oneOf([true], 'You must accept the terms and conditions'),
   file: yup
     .mixed<FileList>()
-    .test('is-valid-type', 'File is required', (value) => !!value?.[0])
+
     .test(
-      'is-valid-type',
+      'fileFormat',
       'Not valid file type',
       (value) => value?.[0] && fileTypes.includes(value[0].type)
     )
     .test(
-      'is-valid-type',
+      'fileSize',
       'Not valid file size',
       (value) => value?.[0] && value[0].size < maxFileSize
-    ),
+    )
+    .test('required', 'File upload is required', (value) => !!value?.length),
+
   country: yup.string().required('Country is a required field'),
 });

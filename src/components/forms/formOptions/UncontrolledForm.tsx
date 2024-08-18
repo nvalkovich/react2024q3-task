@@ -5,7 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import '../forms.css';
 import { formSchema } from '../../../utils/yup/formSchema';
 import { ValidationError } from 'yup';
-import { convertToBase64, generateID, getPasswordStyles } from '../../../utils/helpers';
+import {
+  convertToBase64,
+  generateID,
+  getPasswordStyles,
+} from '../../../utils/helpers';
 import { CountryAutocomplete } from '../../CountryAutocomplete/CountryAutocomplete';
 
 const errorsDefaultState = {
