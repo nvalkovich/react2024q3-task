@@ -1,4 +1,5 @@
-import { TileData } from '../DataTiles/DataTiles';
+import { TileData } from "./types";
+
 
 type TileProps = {
   data: TileData;
@@ -13,6 +14,7 @@ export const Tile = ({ data, index }: TileProps) => {
         <p>Age: {data.age}</p>
         <p>Email: {data.email}</p>
         <p>Password: {data.password}</p>
+        <p>Confirmed password: {data.password}</p>
         <p>Gender: {data.gender}</p>
         <p>Conditions accepted: {data.conditionsAccepted ? 'yes' : 'no'}</p>
         <img src={data.file} width={200}></img>

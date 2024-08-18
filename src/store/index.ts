@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import formReducer from './formSlice';
+import formReducer from './slices/formSlice';
+import countriesReducer from './slices/countriesSlice';
 
 export const rootReducer = combineReducers({
   form: formReducer,
+  countries: countriesReducer
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {

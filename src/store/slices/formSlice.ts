@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TileData } from '../components/DataTiles/DataTiles';
+import { TileData } from '../../components/Tile/types';
 
 const formSlice = createSlice({
   name: 'form',

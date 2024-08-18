@@ -1,18 +1,5 @@
 import { Tile } from '../Tile/Tile';
-import './DataTiles.css';
-
-export interface TileData {
-  id: string;
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  conditionsAccepted: string;
-  file: string;
-  country: string;
-}
+import { TileData } from '../Tile/types';
 
 type DataTilesProps = {
   data: TileData[];
